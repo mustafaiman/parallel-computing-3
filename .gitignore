@@ -33,3 +33,6 @@
 
 #Xcode
 *.xcworkspace
+
+#runnable
+lbp_sec
