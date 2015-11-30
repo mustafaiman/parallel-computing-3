@@ -1,3 +1,1 @@
-gcc -c lbp_sec.c
-gcc -c util.c
-gcc lbp_sec.o util.o -o lbp_sec
+gcc -o lbp_sec lbp_sec.c util.c
