@@ -49,9 +49,11 @@ int neighbor_c[] = {
 
 void create_histogram(int *hist, int **img, int num_rows, int num_cols) {
     memset(hist, 0, sizeof(int) * (1<<NUM_NEIGHBORS));
-    
-#pragma parallel for private(i,j,k)
-    for (int i=1; i+1<num_rows; i++) {
+#pragma omp parallel
+    {
+#pragma omp for schedule(static)
+    for (int i=1; i<num_rows - 1; i++) {
+        //printf("p:%d\n", omp_get_thread_num());
         for (int j=1; j+1<num_cols; j++) {
             int value = 0;
             for (int k = 0; k< NUM_NEIGHBORS; k++) {
@@ -63,6 +65,7 @@ void create_histogram(int *hist, int **img, int num_rows, int num_cols) {
             }
             hist[value] += 1;
         }
+    }
     }
 }
 
