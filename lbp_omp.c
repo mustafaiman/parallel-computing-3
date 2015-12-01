@@ -27,6 +27,7 @@ int find_closest(int ***training_set, int num_persons, int num_training, int siz
     double min_distance = DBL_MAX;
     double current_distance;
     int person=0;
+    
     for (int i=0; i<num_persons; i++) {
         for (int j=0; j<num_training; j++) {
             current_distance = distance(training_set[i][j], test_image, size);
@@ -49,9 +50,7 @@ int neighbor_c[] = {
 
 void create_histogram(int *hist, int **img, int num_rows, int num_cols) {
     memset(hist, 0, sizeof(int) * (1<<NUM_NEIGHBORS));
-#pragma omp parallel
-    {
-#pragma omp for schedule(static)
+
     for (int i=1; i<num_rows - 1; i++) {
         //printf("p:%d\n", omp_get_thread_num());
         for (int j=1; j+1<num_cols; j++) {
@@ -66,7 +65,6 @@ void create_histogram(int *hist, int **img, int num_rows, int num_cols) {
             hist[value] += 1;
         }
     }
-    }
 }
 
 int main(int argc, char *argv[]) {
@@ -80,29 +78,39 @@ int main(int argc, char *argv[]) {
     }
     //trainingSet is a 3d matrix now (person x image x histogramIndex )
     
-    int **image;
-    char filename[256];
-    for (int i=0; i<NUM_PEOPLE; i++) {
-        for (int j=0; j<numberOfTrainingPictures; j++) {
-            sprintf(filename, "images/%d.%d.txt", i+1, j+1);
-            image = read_pgm_file(filename, IMAGE_R, IMAGE_R);
-            create_histogram(trainingSet[i][j], image, IMAGE_R, IMAGE_W);
+
+    #pragma omp parallel
+    {
+        #pragma omp for
+        for (int i=0; i<NUM_PEOPLE; i++) {
+            char filename[256];
+            for (int j=0; j<numberOfTrainingPictures; j++) {
+                sprintf(filename, "images/%d.%d.txt", i+1, j+1);
+                int **image = read_pgm_file(filename, IMAGE_R, IMAGE_R);
+                create_histogram(trainingSet[i][j], image, IMAGE_R, IMAGE_W);
+                free(image);
+            }
         }
     }
     
-    int *test_histogram = (int *)malloc(sizeof(int) * MAX_DECIMAL_VALUE);
     int correct_answers = 0;
-    for (int i=0; i<NUM_PEOPLE; i++) {
-        for (int j=numberOfTrainingPictures; j<NUM_PICS_PER_PERSON; j++) {
-            sprintf(filename, "images/%d.%d.txt", i+1, j+1);
-            image = read_pgm_file(filename, IMAGE_R, IMAGE_R);
-            create_histogram(test_histogram, image, IMAGE_R, IMAGE_W);
+    #pragma omp parallel
+    {
+        #pragma omp for reduction(+:correct_answers)
+        for (int i=0; i<NUM_PEOPLE; i++) {
+            for (int j=numberOfTrainingPictures; j<NUM_PICS_PER_PERSON; j++) {
+                int *test_histogram = (int *)malloc(sizeof(int) * MAX_DECIMAL_VALUE);
+                char filename[256];
+                sprintf(filename, "images/%d.%d.txt", i+1, j+1);
+                int **image = read_pgm_file(filename, IMAGE_R, IMAGE_R);
+                create_histogram(test_histogram, image, IMAGE_R, IMAGE_W);
             
-            int predicted = find_closest(trainingSet, NUM_PEOPLE, numberOfTrainingPictures, MAX_DECIMAL_VALUE, test_histogram) + 1;
+                int predicted = find_closest(trainingSet, NUM_PEOPLE, numberOfTrainingPictures, MAX_DECIMAL_VALUE, test_histogram) + 1;
             
-            printf("%s %d %d\n", filename+7, predicted, i+1);
-            if(i+1 == predicted) {
-                correct_answers++;
+                printf("%s %d %d\n", filename+7, predicted, i+1);
+                if(i+1 == predicted) {
+                    correct_answers++;
+                }
             }
         }
     }
