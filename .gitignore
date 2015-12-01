@@ -36,3 +36,6 @@
 
 #runnable
 lbp_sec
+lbp_sec_profiling
+lbp_omp
+lbp_omp_profiling
