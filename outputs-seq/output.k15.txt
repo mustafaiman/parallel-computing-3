@@ -84,8 +84,8 @@
 17.19.txt 17 17
 17.20.txt 17 17
 18.16.txt 18 18
-18.17.txt 18 18
+18.17.txt 16 18
 18.18.txt 18 18
 18.19.txt 18 18
 18.20.txt 18 18
-Accuracy: 90 correct answers for 90 tests
+Accuracy: 89 correct answers for 90 tests

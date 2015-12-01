@@ -56,7 +56,7 @@
 6.10.txt 6 6
 6.11.txt 6 6
 6.12.txt 6 6
-6.13.txt 17 6
+6.13.txt 6 6
 6.14.txt 6 6
 6.15.txt 6 6
 6.16.txt 6 6
@@ -196,4 +196,4 @@
 18.18.txt 18 18
 18.19.txt 18 18
 18.20.txt 18 18
-Accuracy: 196 correct answers for 198 tests
+Accuracy: 197 correct answers for 198 tests
