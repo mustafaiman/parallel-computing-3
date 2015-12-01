@@ -25,9 +25,3 @@ void dealloc_2d_matrix(int **a, int r, int c);
 *		note that this function can not read pgm files, only use with given dataset
 **/ 
 int **read_pgm_file(char *file_name, int h, int w);
-
-void create_histogram(int *hist, int **img, int num_rows, int num_cols);
-
-double distance(int *a, int *b, int size);
-
-int find_closest(int ***training_set, int num_persons, int num_training, int size, int *test_image);
