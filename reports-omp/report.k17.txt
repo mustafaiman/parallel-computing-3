@@ -3,11 +3,11 @@ Flat profile:
 Each sample counts as 0.01 seconds.
   %   cumulative   self              self     total           
  time   seconds   seconds    calls  ms/call  ms/call  name    
- 91.25      1.31     1.31      360     3.65     3.65  create_histogram
-  8.36      1.43     0.12    16524     0.01     0.01  distance
-  0.70      1.44     0.01      360     0.03     0.03  read_pgm_file
-  0.00      1.44     0.00      378     0.00     0.00  alloc_2d_matrix
-  0.00      1.44     0.00       54     0.00     2.23  find_closest
+ 90.11      1.59     1.59      360     4.43     4.43  create_histogram
+  5.10      1.69     0.09    16524     0.01     0.01  distance
+  5.10      1.78     0.09      360     0.25     0.25  read_pgm_file
+  0.00      1.78     0.00      378     0.00     0.00  alloc_2d_matrix
+  0.00      1.78     0.00       54     0.00     1.67  find_closest
 
  %         the percentage of the total running time of the
 time       program used by this function.
@@ -45,32 +45,32 @@ notice and this notice are preserved.
 		     Call graph (explanation follows)
 
 
-granularity: each sample hit covers 2 byte(s) for 0.69% of 1.44 seconds
+granularity: each sample hit covers 2 byte(s) for 0.56% of 1.78 seconds
 
 index % time    self  children    called     name
                                                  <spontaneous>
-[1]    100.0    0.00    1.44                 main [1]
-                1.31    0.00     360/360         create_histogram [2]
-                0.00    0.12      54/54          find_closest [4]
-                0.01    0.00     360/360         read_pgm_file [5]
+[1]    100.0    0.00    1.78                 main [1]
+                1.59    0.00     360/360         create_histogram [2]
+                0.09    0.00     360/360         read_pgm_file [4]
+                0.00    0.09      54/54          find_closest [5]
                 0.00    0.00      18/378         alloc_2d_matrix [6]
 -----------------------------------------------
-                1.31    0.00     360/360         main [1]
-[2]     91.0    1.31    0.00     360         create_histogram [2]
+                1.59    0.00     360/360         main [1]
+[2]     89.8    1.59    0.00     360         create_histogram [2]
 -----------------------------------------------
-                0.12    0.00   16524/16524       find_closest [4]
-[3]      8.3    0.12    0.00   16524         distance [3]
+                0.09    0.00   16524/16524       find_closest [5]
+[3]      5.1    0.09    0.00   16524         distance [3]
 -----------------------------------------------
-                0.00    0.12      54/54          main [1]
-[4]      8.3    0.00    0.12      54         find_closest [4]
-                0.12    0.00   16524/16524       distance [3]
------------------------------------------------
-                0.01    0.00     360/360         main [1]
-[5]      0.7    0.01    0.00     360         read_pgm_file [5]
+                0.09    0.00     360/360         main [1]
+[4]      5.1    0.09    0.00     360         read_pgm_file [4]
                 0.00    0.00     360/378         alloc_2d_matrix [6]
 -----------------------------------------------
+                0.00    0.09      54/54          main [1]
+[5]      5.1    0.00    0.09      54         find_closest [5]
+                0.09    0.00   16524/16524       distance [3]
+-----------------------------------------------
                 0.00    0.00      18/378         main [1]
-                0.00    0.00     360/378         read_pgm_file [5]
+                0.00    0.00     360/378         read_pgm_file [4]
 [6]      0.0    0.00    0.00     378         alloc_2d_matrix [6]
 -----------------------------------------------
 
@@ -164,5 +164,5 @@ notice and this notice are preserved.
 
 Index by function name
 
-   [6] alloc_2d_matrix         [3] distance                [5] read_pgm_file
-   [2] create_histogram        [4] find_closest
+   [6] alloc_2d_matrix         [3] distance                [4] read_pgm_file
+   [2] create_histogram        [5] find_closest
