@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<float.h>
 #include<omp.h>
+#include<time.h>
 
 #include "util.h"
 
@@ -69,6 +70,8 @@ void create_histogram(int *hist, int **img, int num_rows, int num_cols) {
 
 int main(int argc, char *argv[]) {
     
+    clock_t seq_clk = clock();
+    
     int numberOfTrainingPictures = atoi(argv[1]);
     
     int ***trainingSet = (int ***)malloc(sizeof(int **) * NUM_PEOPLE);
@@ -78,7 +81,10 @@ int main(int argc, char *argv[]) {
     }
     //trainingSet is a 3d matrix now (person x image x histogramIndex )
     
-
+    double seq_time = clock() - seq_clk;
+    
+    double parallel_clk = omp_get_wtime();
+    
     #pragma omp parallel
     {
         #pragma omp for
@@ -115,6 +121,7 @@ int main(int argc, char *argv[]) {
         }
     }
     printf("Accuracy: %d correct answers for %d tests\n", correct_answers, NUM_PEOPLE * (NUM_PICS_PER_PERSON - numberOfTrainingPictures));
-    
+    printf("Parallel time: %lf\n", omp_get_wtime() - parallel_clk);
+    printf("Sequential time: %lf\n", seq_time/CLOCKS_PER_SEC);
     return 0;
 }

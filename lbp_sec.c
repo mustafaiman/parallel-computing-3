@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<float.h>
+#include<time.h>
 
 #include "util.h"
 
@@ -65,6 +66,8 @@ void create_histogram(int *hist, int **img, int num_rows, int num_cols) {
 
 int main(int argc, char *argv[]) {
     
+    clock_t seq_clk = clock();
+    
     int numberOfTrainingPictures = atoi(argv[1]);
     
     int ***trainingSet = (int ***)malloc(sizeof(int **) * NUM_PEOPLE);
@@ -100,7 +103,10 @@ int main(int argc, char *argv[]) {
             }
         }
     }
-    printf("Accuracy: %d correct answers for %d tests\n", correct_answers, NUM_PEOPLE * (NUM_PICS_PER_PERSON - numberOfTrainingPictures));
     
+    double seq_time = clock() - seq_clk;
+    
+    printf("Accuracy: %d correct answers for %d tests\n", correct_answers, NUM_PEOPLE * (NUM_PICS_PER_PERSON - numberOfTrainingPictures));
+    printf("Sequential time: %lf\n", seq_time/CLOCKS_PER_SEC);
     return 0;
 }

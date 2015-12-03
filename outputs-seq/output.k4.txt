@@ -287,3 +287,4 @@
 18.19.txt 18 18
 18.20.txt 18 18
 Accuracy: 286 correct answers for 288 tests
+Sequential time: 2.415810
