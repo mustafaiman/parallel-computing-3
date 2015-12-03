@@ -1,1 +1,0 @@
-for ((i=1;i<=17;i+=1)); do ./lbp_sec $i > outputs-seq/output.k$i.txt; echo "test for k=$i of 17 done";  done;
