@@ -1,3 +1,4 @@
+#!/bin/bash 
 ./lbp_seq 4 > iman_mustafa_seq_k4.output
 echo "sequential with k=4 done";
 ./lbp_seq 8 > iman_mustafa_seq_k8.output
